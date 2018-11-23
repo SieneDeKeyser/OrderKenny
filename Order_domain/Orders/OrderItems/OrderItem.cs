@@ -1,5 +1,6 @@
 ﻿using System;
 using Oder_infrastructure.builders;
+using Order_domain.Items;
 using Order_domain.Items.Prices;
 
 namespace Order_domain.Orders.OrderItems
@@ -7,9 +8,12 @@ namespace Order_domain.Orders.OrderItems
     public sealed class OrderItem
     {
         public Guid ItemId { get; set; }
+        public Item Item { get; set; }
         public Price ItemPrice { get; set; }
         public int OrderedAmount { get; set; }
         public DateTime ShippingDate { get; set; }
+        public Guid OrderId { get; set; }
+        public Order MainOrder { get; set; }
 
         public OrderItem(OrderItemBuilder orderItemBuilder)
         {
@@ -31,6 +35,11 @@ namespace Order_domain.Orders.OrderItems
         public Price GetTotalPrice()
         {
             return Price.Create(ItemPrice.Amount * OrderedAmount);
+        }
+
+        private OrderItem()
+        {
+
         }
 
         public override string ToString()

@@ -1,42 +1,51 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Order_domain.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Order_domain
 {
-    public abstract class Repository<T, U>
+    public abstract class Repository<T>
         where T : Entity
-        where U : EntityDatabase<T>
     {
+        private readonly OrderDbContext _context;
 
-        public U Database { get; set; }
-
-        protected Repository(U database)
+        public Repository(OrderDbContext context)
         {
-            Database = database;
+            _context = context;
         }
+        public Repository()
+        {
 
+        }
         public T Save(T entity)
         {
             entity.GenerateId();
-            Database.Save(entity);
+            _context.Add(entity);
+            _context.SaveChanges();
             return entity;
         }
 
         public T Update(T entity)
         {
-            Database.Save(entity);
+            var entityFromDb = Get(entity.Id);
+            _context.Attach(entityFromDb);
+
+            entityFromDb = entity;
+            
+            _context.SaveChanges();
             return entity;
         }
 
-        public Dictionary<Guid, T> GetAll()
+        public IEnumerable<T> GetAll()
         {
-            return Database.GetAll();
+            return _context.Set<T>().ToList();
         }
 
         public T Get(Guid entityId)
         {
-            return Database.GetAll().SingleOrDefault(x => x.Key == entityId).Value;
+            return _context.Set<T>().SingleOrDefault(x => x.Id == entityId);
         }
 
         /**
@@ -44,9 +53,5 @@ namespace Order_domain
          * in the tests. We'll use this method. Obviously this is a method that should
          * never be available in production...
          */
-        public void Reset()
-        {
-            Database.Reset();
-        }
     }
 }

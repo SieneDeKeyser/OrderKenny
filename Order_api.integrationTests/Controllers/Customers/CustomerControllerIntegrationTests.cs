@@ -13,20 +13,14 @@ using Order_api.Controllers.Customers;
 using Order_api.Controllers.Customers.Addresses;
 using Order_api.Controllers.Customers.Emails;
 using Order_api.Controllers.Customers.PhoneNumbers;
+using Order_domain.Data;
 using Xunit;
 
 namespace Order_api.integrationTests.Controllers.Customers
 {
-    public class CustomerControllerIntegrationTests : IDisposable
+    public class CustomerControllerIntegrationTests
     {
         private readonly HttpClient _client;
-
-        public CustomerControllerIntegrationTests()
-        {
-            _client = new TestServer(new WebHostBuilder()
-                .UseStartup<Startup>())
-                .CreateClient();
-        }
 
         private CustomerDto CreateCustomerDto()
         {
@@ -48,27 +42,29 @@ namespace Order_api.integrationTests.Controllers.Customers
                 .Build();
         }
 
-        public void Dispose()
-        {
-            _client.Dispose();
-        }
-
         [Fact]
         public async Task CreateCustomer()
         {
-            CustomerDto customerToCreate = CreateCustomerDto();
+            var _server = new TestServer(new WebHostBuilder().UseStartup<TestStartup>());
+            using (_server)
+            {
+                var _client = _server.CreateClient();
+                CustomerDto customerToCreate = CreateCustomerDto();
 
-            var content = JsonConvert.SerializeObject(customerToCreate);
-            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+                var content = JsonConvert.SerializeObject(customerToCreate);
+                var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("/api/customers", stringContent);
+                var response = await _client.PostAsync("api/customers", stringContent);
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            var createdCustomer = JsonConvert.DeserializeObject<CustomerDto>(responseString);
+                var responseString = await response.Content.ReadAsStringAsync();
+                var createdCustomer = JsonConvert.DeserializeObject<CustomerDto>(responseString);
 
-            AssertCustomerIsEqualIgnoringId(customerToCreate, createdCustomer);
+                AssertCustomerIsEqualIgnoringId(customerToCreate, createdCustomer);
+            }
+
+
         }
 
         [Fact]

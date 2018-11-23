@@ -9,10 +9,8 @@ namespace Order_domain.Items
 
         Item Update(Item entity);
 
-        Dictionary<Guid, Item> GetAll();
+        IEnumerable<Item> GetAll();
 
         Item Get(Guid entityId);
-
-        void Reset();
     }
 }

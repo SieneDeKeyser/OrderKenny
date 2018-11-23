@@ -1,27 +1,26 @@
 ﻿using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Order_domain.Customers;
+using Order_domain.Data;
 using Order_domain.tests.Customers;
 using Xunit;
 
 namespace Order_domain.tests
 {
-    public class RepositoryIntegrationTest : IDisposable
+    public class RepositoryIntegrationTest 
     {
-        private readonly Repository<Customer, CustomerDatabase> _repository;
-
-        public RepositoryIntegrationTest()
+        private static DbContextOptions<OrderDbContext> CreateNewInMemoryDatabase()
         {
-            _repository = new CustomerRepository(new CustomerDatabase());
-        }
-        
-        public void Dispose()
-        {
-            _repository.Reset();
+            return new DbContextOptionsBuilder<OrderDbContext>()
+                .UseInMemoryDatabase("OrderDbContext" + Guid.NewGuid().ToString("N")).Options;
         }
 
         [Fact]
         public void Save()
         {
+            var context = new OrderDbContext(CreateNewInMemoryDatabase());
+            Repository<Customer> _repository = new CustomerRepository(context);
             var customerToSave = CustomerTestBuilder.ACustomer().Build();
 
             var savedCustomer = _repository.Save(customerToSave);
@@ -33,6 +32,9 @@ namespace Order_domain.tests
         [Fact]
         public void Update()
         {
+            var context = new OrderDbContext(CreateNewInMemoryDatabase());
+            Repository<Customer> _repository = new CustomerRepository(context);
+
             var customerToSave = CustomerTestBuilder.ACustomer()
                 .WithFirstname("Jo")
                 .WithLastname("Jorissen")
@@ -56,6 +58,8 @@ namespace Order_domain.tests
         [Fact]
         public void Get()
         {
+            var context = new OrderDbContext(CreateNewInMemoryDatabase());
+            Repository<Customer> _repository = new CustomerRepository(context);
             var savedCustomer = _repository.Save(CustomerTestBuilder.ACustomer().Build());
 
             var actualCustomer = _repository.Get(savedCustomer.Id);
@@ -66,13 +70,16 @@ namespace Order_domain.tests
         [Fact]
         public void GetAll()
         {
+            var context = new OrderDbContext(CreateNewInMemoryDatabase());
+            Repository<Customer> _repository = new CustomerRepository(context);
+
             var customer1 = _repository.Save(CustomerTestBuilder.ACustomer().Build());
             var customer2 = _repository.Save(CustomerTestBuilder.ACustomer().Build());
 
             var customers = _repository.GetAll();
 
-            Assert.True(customers.ContainsValue(customer1));
-            Assert.True(customers.ContainsValue(customer2));
+            Assert.Equal(customer1, customers.SingleOrDefault(cust => cust.Equals(customer1)));
+            Assert.Equal(customer2, customers.SingleOrDefault(cust => cust.Equals(customer2)));
         }
     }
 }

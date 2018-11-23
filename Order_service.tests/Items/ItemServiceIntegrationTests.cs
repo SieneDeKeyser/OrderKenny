@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using NSubstitute;
+using Order_domain;
+using Order_domain.Data;
 using Order_domain.Items;
 using Order_domain.Items.Prices;
 using Order_domain.tests.Items;
@@ -8,20 +12,22 @@ using Xunit;
 
 namespace Order_service.tests.Items
 {
-    public class ItemServiceIntegrationTests : IDisposable
+    public class ItemServiceIntegrationTests
     {
         private readonly ItemService _itemService;
-        private readonly ItemRepository _itemRepository;
+        private readonly IItemRepository _itemRepository;
+
+        private static DbContextOptions<OrderDbContext> CreateNewInMemoryDatabase()
+        {
+            return new DbContextOptionsBuilder<OrderDbContext>()
+                .UseInMemoryDatabase("OrderDbContext" + Guid.NewGuid().ToString("N")).Options;
+        }
 
         public ItemServiceIntegrationTests()
         {
-            _itemRepository = new ItemRepository(new ItemDatabase());
+            var context = new OrderDbContext(CreateNewInMemoryDatabase());
+            _itemRepository = new ItemRepository(context);
             _itemService = new ItemService(_itemRepository, new ItemValidator());
-        }
-
-        public void Dispose()
-        {
-            _itemRepository.Reset();
         }
 
         [Fact]

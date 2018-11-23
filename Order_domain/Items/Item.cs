@@ -20,6 +20,11 @@ namespace Order_domain.Items
             AmountOfStock = itemBuilder.AmountOfStock;
         }
 
+        private Item():base(Guid.Empty)
+        {
+
+        }
+
         public StockUrgency GetStockUrgency()
         {
             if (AmountOfStock < 5) { return StockUrgency.STOCK_LOW; }

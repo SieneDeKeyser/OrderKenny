@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Oder_infrastructure.builders;
+using Order_domain.Customers;
 using Order_domain.Items.Prices;
 using Order_domain.Orders.OrderItems;
 
@@ -11,12 +12,17 @@ namespace Order_domain.Orders
     {
         public IEnumerable<OrderItem> OrderItems { get; set; }
         public Guid CustomerId { get; set; }
-        
+        public Customer Customer { get; set; }
+
         public Order(OrderBuilder orderBuilder)
             :base(orderBuilder.Id)
         {
             OrderItems = orderBuilder.OrderItems;
             CustomerId = orderBuilder.CustomerId;
+        }
+        private Order():base(Guid.Empty)
+        {
+
         }
         
         public Price GetTotalPrice()

@@ -24,7 +24,7 @@ namespace Order_api.Controllers.Customers
         {
             return _customerMapper.ToDto(
                 _customerService.CreateCustomer(
-                    _customerMapper.ToDomain(customerDto)));
+                    _customerMapper.ToDomainForCreation(customerDto)));
         }
 
         [HttpGet]

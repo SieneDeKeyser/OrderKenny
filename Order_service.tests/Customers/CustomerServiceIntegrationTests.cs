@@ -1,26 +1,31 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using NSubstitute;
 using Order_domain.Customers;
+using Order_domain.Data;
 using Order_domain.tests.Customers;
 using Order_service.Customers;
 using Xunit;
 
 namespace Order_service.tests.Customers
 {
-    public class CustomerServiceIntegrationTests : IDisposable
+    public class CustomerServiceIntegrationTests
     {
-        private readonly CustomerRepository _customerRepository;
+        private readonly ICustomerRepository _customerRepository;
         private readonly CustomerService _customerService;
+
+        private static DbContextOptions<OrderDbContext> CreateNewInMemoryDatabase()
+        {
+            return new DbContextOptionsBuilder<OrderDbContext>()
+                .UseInMemoryDatabase("OrderDbContext" + Guid.NewGuid().ToString("N")).Options;
+        }
 
         public CustomerServiceIntegrationTests()
         {
-            _customerRepository = new CustomerRepository(new CustomerDatabase());
+            var context = new OrderDbContext(CreateNewInMemoryDatabase());
+            _customerRepository = new CustomerRepository(context);
             _customerService = new CustomerService(_customerRepository, new CustomerValidator());
-        }
-
-        public void Dispose()
-        {
-            _customerRepository.Reset();
         }
 
         [Fact]

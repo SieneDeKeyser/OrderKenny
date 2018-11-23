@@ -4,6 +4,10 @@ namespace Order_domain
 {
     public abstract class Entity
     {
+        private Entity()
+        {
+
+        }
         public Guid Id { get; private set; }
 
         protected Entity(Guid id)
@@ -16,8 +20,8 @@ namespace Order_domain
             if (Id != Guid.Empty)
             {
                 //IllegalStateException
-                throw new Exception("Generating an ID for a customer that already has " +
-                                                "an ID (" + Id + ") is not allowed.");
+                //throw new Exception("Generating an ID for a customer that already has " +
+                //                                "an ID (" + Id + ") is not allowed.");
             }
 
             Id = Guid.NewGuid();

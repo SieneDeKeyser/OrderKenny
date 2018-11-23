@@ -43,5 +43,18 @@ namespace Order_api.Controllers.Customers
                 .WithPhoneNumber(_phoneNumberMapper.ToDomain(customerDto.PhoneNumber))
                 .Build();
         }
+
+        public Customer ToDomainForCreation(CustomerDto customerDto)
+        {
+            return Customer.CustomerBuilder.Customer()
+                .WithId(new Guid(customerDto.Id))
+                .WithLastname(customerDto.LastName)
+                .WithFirstname(customerDto.FirstName)
+                .WithAddress(_addressMapper.ToDomain(customerDto.Address))
+                .WithEmail(_emailMapper.ToDomain(customerDto.Email))
+                .WithPhoneNumber(_phoneNumberMapper.ToDomain(customerDto.PhoneNumber))
+                .Build();
+        }
+
     }
 }

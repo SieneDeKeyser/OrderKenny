@@ -7,9 +7,9 @@ namespace Order_domain.Customers.Emails
 {
     public class Email
     {
-        public string LocalPart { get; }
-        public string Domain { get; }
-        public string Complete { get; }
+        public string LocalPart { get; private set; }
+        public string Domain { get; private set; }
+        public string Complete { get; private set; }
 
         private Email(EmailBuilder emailBuilder)
         {
@@ -18,6 +18,10 @@ namespace Order_domain.Customers.Emails
             Complete = emailBuilder.Complete;
         }
 
+        private Email()
+        {
+
+        }
 
         public override string ToString()
         {

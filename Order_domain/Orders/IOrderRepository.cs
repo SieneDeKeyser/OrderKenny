@@ -9,12 +9,10 @@ namespace Order_domain.Orders
 
         Order Update(Order entity);
 
-        Dictionary<Guid, Order> GetAll();
+        IEnumerable<Order> GetAll();
 
         Order Get(Guid entityId);
 
         IEnumerable<Order> GetOrdersForCustomer(Guid customerId);
-
-        void Reset();
     }
 }

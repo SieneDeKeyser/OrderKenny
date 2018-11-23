@@ -1,9 +1,12 @@
-﻿namespace Order_domain.Customers
+﻿using Microsoft.EntityFrameworkCore;
+using Order_domain.Data;
+
+namespace Order_domain.Customers
 {
-    public class CustomerRepository : Repository<Customer, CustomerDatabase>, ICustomerRepository
+    public class CustomerRepository : Repository<Customer>, ICustomerRepository
     {
-        public CustomerRepository(CustomerDatabase database)
-            : base(database)
+
+        public CustomerRepository(OrderDbContext context) : base(context)
         {
         }
     }

@@ -1,10 +1,11 @@
-﻿namespace Order_domain.Items
-{
-    public class ItemRepository : Repository<Item, ItemDatabase>, IItemRepository
-    {
+﻿using Microsoft.EntityFrameworkCore;
+using Order_domain.Data;
 
-        public ItemRepository(ItemDatabase database)
-            : base(database)
+namespace Order_domain.Items
+{
+    public class ItemRepository : Repository<Item>, IItemRepository
+    {
+        public ItemRepository(OrderDbContext context) : base(context)
         {
         }
     }

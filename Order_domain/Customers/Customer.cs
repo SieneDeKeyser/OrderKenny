@@ -24,6 +24,10 @@ namespace Order_domain.Customers
             Address = customerBuilder.Address;
             PhoneNumber = customerBuilder.PhoneNumber;
         }
+        private Customer():base(Guid.Empty)
+        {
+
+        }
 
         public override string ToString()
         {

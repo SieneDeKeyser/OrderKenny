@@ -27,7 +27,7 @@ namespace Order_service.Customers
 
         public IEnumerable<Customer> GetAllCustomers()
         {
-            return _customerRepository.GetAll().Select(customer => customer.Value);
+            return _customerRepository.GetAll().Select(customer => customer);
         }
 
         public Customer GetCustomer(Guid id)
