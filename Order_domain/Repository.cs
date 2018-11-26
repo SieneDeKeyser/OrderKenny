@@ -11,11 +11,11 @@ namespace Order_domain
     {
         private readonly OrderDbContext _context;
 
-        public Repository(OrderDbContext context)
+        protected Repository(OrderDbContext context)
         {
             _context = context;
         }
-        public Repository()
+        protected Repository()
         {
 
         }

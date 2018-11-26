@@ -38,21 +38,20 @@ namespace Order_api
 
         protected virtual void ConfigureOrderServices(IServiceCollection services)
         {
-            services.AddSingleton(ConfigureDbContext());
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddScoped(ConfigureDbContext());
 
+            services.AddSingleton<AddressMapper>();
+            services.AddSingleton<EmailMapper>();
+            services.AddSingleton<PhoneNumberMapper>();
+            services.AddSingleton<CustomerMapper>();
+            services.AddSingleton<ItemMapper>();
+            services.AddSingleton<OrderMapper>();
+            services.AddSingleton<OrderItemMapper>();
 
-
-            services.AddTransient<AddressMapper>();
-            services.AddTransient<EmailMapper>();
-            services.AddTransient<PhoneNumberMapper>();
-            services.AddTransient<CustomerMapper>();
-            services.AddTransient<ItemMapper>();
-            services.AddTransient<OrderMapper>();
-            services.AddTransient<OrderItemMapper>();
-
-            services.AddTransient<CustomerValidator>();
-            services.AddTransient<ItemValidator>();
-            services.AddTransient<OrderValidator>();
+            services.AddScoped<CustomerValidator>();
+            services.AddScoped<ItemValidator>();
+            services.AddScoped<OrderValidator>();
 
             services.AddSingleton<ICustomerService, CustomerService>();
             services.AddSingleton<ICustomerRepository, CustomerRepository>();
@@ -63,14 +62,15 @@ namespace Order_api
             services.AddSingleton<IOrderService, OrderService>();
             services.AddSingleton<IOrderRepository, OrderRepository>();
 
-            services.AddTransient<OrderDbContext>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDbContext<OrderDbContext>(option =>
+                option.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=OrderDatabase;Integrated Security=True;")
+            );
+            //services.AddScoped<OrderDbContext>();
             services.AddSwagger();
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             ConfigureOrderServices(services);
         }
 
@@ -79,7 +79,7 @@ namespace Order_api
         protected virtual DbContextOptions<OrderDbContext> ConfigureDbContext()
         {
             return new DbContextOptionsBuilder<OrderDbContext>()
-                .UseSqlServer($"Data Source=.\\SQLExpress;Initial Catalog=ParkShark;Integrated Security=True;")
+                .UseSqlServer($"Data Source=.\\SQLExpress;Initial Catalog=OrderDatabase;Integrated Security=True;")
                 .Options;
         }
 
