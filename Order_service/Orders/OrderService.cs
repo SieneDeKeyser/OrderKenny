@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Oder_infrastructure.Exceptions;
+using Order_domain;
 using Order_domain.Customers;
 using Order_domain.Items;
 using Order_domain.Orders;
@@ -11,14 +12,14 @@ namespace Order_service.Orders
 {
     public class OrderService : IOrderService
     {
-        private readonly ICustomerRepository _customerRepository;
-        private readonly IItemRepository _itemRepository;
-        private readonly IOrderRepository _orderRepository;
+        private readonly IRepository<Customer> _customerRepository;
+        private readonly IRepository<Item> _itemRepository;
+        private readonly IRepository<Order> _orderRepository;
         private readonly OrderValidator _orderValidator;
 
-        public OrderService(ICustomerRepository customerRepository,
-                        IItemRepository itemRepository,
-                        IOrderRepository orderRepository,
+        public OrderService(IRepository<Customer> customerRepository,
+                        IRepository<Item> itemRepository,
+                        IRepository<Order> orderRepository,
                         OrderValidator orderValidator)
         {
             _customerRepository = customerRepository;
@@ -37,7 +38,7 @@ namespace Order_service.Orders
 
         public IEnumerable<Order> GetOrdersForCustomer(Guid customerId)
         {
-            return _orderRepository.GetOrdersForCustomer(customerId);
+            return ((OrderRepository) _orderRepository).GetOrdersForCustomer(customerId);
         }
 
         public Order ReorderOrder(Guid orderId)

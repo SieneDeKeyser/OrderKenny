@@ -1,5 +1,6 @@
 ﻿using System;
 using NSubstitute;
+using Order_domain;
 using Order_domain.Customers;
 using Order_domain.tests.Customers;
 using Order_service.Customers;
@@ -10,11 +11,11 @@ namespace Order_service.tests.Customers
     public class CustomerServiceTests
     {
         private readonly CustomerService _customerService;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly IRepository<Customer> _customerRepository;
 
         public CustomerServiceTests()
         {
-            _customerRepository = Substitute.For<ICustomerRepository>();
+            _customerRepository = Substitute.For<IRepository<Customer>>();
             _customerService = new CustomerService(_customerRepository, new CustomerValidator());
         }
 

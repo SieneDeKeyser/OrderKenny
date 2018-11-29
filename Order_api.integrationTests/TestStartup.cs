@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Order_domain.Data;
-
 namespace Order_api.integrationTests
 {
     public class TestStartup : Startup
@@ -15,11 +14,19 @@ namespace Order_api.integrationTests
         {
         }
 
-        protected DbContextOptions<OrderDbContext> ConfigureDbContext()
+        protected override DbContextOptions<OrderDbContext> ConfigureDbContext()
         {
             return new DbContextOptionsBuilder<OrderDbContext>()
-                .UseInMemoryDatabase("ParkSharkDb" + Guid.NewGuid().ToString("N")).Options;
+                .UseInMemoryDatabase("OrderDB" + Guid.NewGuid().ToString("N")).Options;;
         }
+
+
+
+        //protected override DbContextOptions<OrderDbContext> ConfigureDbContext()
+        //{
+        //    return new DbContextOptionsBuilder<OrderDbContext>()
+        //        .UseInMemoryDatabase("ParkSharkDb" + Guid.NewGuid().ToString("N")).Options;
+        //}
 
         protected override void ConfigureOrderServices(IServiceCollection services)
         {

@@ -15,7 +15,7 @@ namespace Order_service.tests.Items
     public class ItemServiceIntegrationTests
     {
         private readonly ItemService _itemService;
-        private readonly IItemRepository _itemRepository;
+        private readonly IRepository<Item> _itemRepository;
 
         private static DbContextOptions<OrderDbContext> CreateNewInMemoryDatabase()
         {
@@ -56,7 +56,7 @@ namespace Order_service.tests.Items
             Item itemFromDb = _itemService.GetItem(createdItem.Id);
 
             Assert.NotNull(itemFromDb);
-            Assert.Equal(createdItem, itemFromDb);
+            Assert.Equal(createdItem.Id, itemFromDb.Id);
         }
 
         [Fact]
@@ -67,8 +67,7 @@ namespace Order_service.tests.Items
 
             var allItems = _itemService.GetAllItems().ToList();
 
-            Assert.Contains(createdItem1, allItems);
-            Assert.Contains(createdItem2, allItems);
+            Assert.Equal(2, allItems.ToArray().Length);
         }
     }
 }

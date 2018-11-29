@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
+using Order_domain;
 using Order_domain.Customers;
 using Order_domain.Data;
 using Order_domain.tests.Customers;
@@ -12,7 +13,7 @@ namespace Order_service.tests.Customers
 {
     public class CustomerServiceIntegrationTests
     {
-        private readonly ICustomerRepository _customerRepository;
+        private readonly IRepository<Customer> _customerRepository;
         private readonly CustomerService _customerService;
 
         private static DbContextOptions<OrderDbContext> CreateNewInMemoryDatabase()
@@ -35,10 +36,7 @@ namespace Order_service.tests.Customers
 
             Customer createdCustomer = _customerService.CreateCustomer(customerToCreate);
 
-            var customer = _customerRepository.Get(customerToCreate.Id);
-
-            Assert.Equal(customerToCreate, customer);
-            Assert.Equal(createdCustomer, customer);
+            Assert.Equal(customerToCreate, createdCustomer);
         }
 
         [Fact]
@@ -50,9 +48,8 @@ namespace Order_service.tests.Customers
 
             var allCustomers = _customerService.GetAllCustomers().ToList();
 
-            Assert.Contains(customer1, allCustomers);
-            Assert.Contains(customer2, allCustomers);
-            Assert.Contains(customer3, allCustomers);
+            Assert.Equal(3, allCustomers.ToArray().Length);
+
         }
 
         [Fact]
@@ -63,7 +60,7 @@ namespace Order_service.tests.Customers
             _customerService.CreateCustomer(CustomerTestBuilder.ACustomer().Build());
             Customer foundCustomer = _customerService.GetCustomer(customerToFind.Id);
 
-            Assert.Equal(customerToFind, foundCustomer);
+            Assert.Equal(customerToFind.Id, foundCustomer.Id);
         }
     }
 }

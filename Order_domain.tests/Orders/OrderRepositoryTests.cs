@@ -10,7 +10,8 @@ namespace Order_domain.tests.Orders
 {
     public class OrderRepositoryTests
     {
-        private readonly OrderRepository _orderRepository;
+       
+        
 
         private static DbContextOptions<OrderDbContext> CreateNewInMemoryDatabase()
         {
@@ -18,15 +19,18 @@ namespace Order_domain.tests.Orders
                 .UseInMemoryDatabase("OrderDbContext" + Guid.NewGuid().ToString("N")).Options;
         }
 
-        public OrderRepositoryTests()
-        {
-            var context = new OrderDbContext(CreateNewInMemoryDatabase());
-            _orderRepository = new OrderRepository(context);
-        }
+        //public OrderRepositoryTests()
+        //{
+        //    var context = new OrderDbContext(CreateNewInMemoryDatabase());
+        //    _orderRepository = new OrderRepository(context);
+        //}
 
         [Fact]
         public void GetOrdersForCustomer()
         {
+            var context = new OrderDbContext(CreateNewInMemoryDatabase());
+            OrderRepository _orderRepository = new OrderRepository(context);
+
             Guid customerId = Guid.NewGuid();
             Guid otherCustomerId = Guid.NewGuid();
 

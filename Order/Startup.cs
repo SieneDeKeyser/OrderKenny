@@ -15,11 +15,12 @@ using Order_api.Controllers.Customers.Emails;
 using Order_api.Controllers.Customers.PhoneNumbers;
 using Order_api.Controllers.Items;
 using Order_api.Controllers.Orders;
+using Order_domain;
 using Order_domain.Customers;
+using Order_domain.Data;
 using Order_domain.Items;
 using Order_domain.Orders;
 using Order_service.Customers;
-using Order_service.Data;
 using Order_service.Items;
 using Order_service.Orders;
 
@@ -39,7 +40,7 @@ namespace Order_api
         protected virtual void ConfigureOrderServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            //services.AddScoped(ConfigureDbContext());
+            services.AddSingleton(ConfigureDbContext());
 
             services.AddSingleton<AddressMapper>();
             services.AddSingleton<EmailMapper>();
@@ -49,23 +50,20 @@ namespace Order_api
             services.AddSingleton<OrderMapper>();
             services.AddSingleton<OrderItemMapper>();
 
-            services.AddScoped<CustomerValidator>();
-            services.AddScoped<ItemValidator>();
-            services.AddScoped<OrderValidator>();
+            services.AddSingleton<CustomerValidator>();
+            services.AddSingleton<ItemValidator>();
+            services.AddSingleton<OrderValidator>();
 
             services.AddSingleton<ICustomerService, CustomerService>();
-            services.AddSingleton<ICustomerRepository, CustomerRepository>();
+            services.AddSingleton<IRepository<Customer>, CustomerRepository>();
 
             services.AddSingleton<IItemService, ItemService>();
-            services.AddSingleton<IItemRepository, ItemRepository>();
+            services.AddSingleton<IRepository<Item>, ItemRepository>();
 
             services.AddSingleton<IOrderService, OrderService>();
-            services.AddSingleton<IOrderRepository, OrderRepository>();
+            services.AddSingleton<IRepository<Order>, OrderRepository>();
 
-            services.AddDbContext<OrderDbContext>(option =>
-                option.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=OrderDatabase;Integrated Security=True;")
-            );
-            //services.AddScoped<OrderDbContext>();
+            services.AddSingleton<OrderDbContext>();
             services.AddSwagger();
         }
         // This method gets called by the runtime. Use this method to add services to the container.

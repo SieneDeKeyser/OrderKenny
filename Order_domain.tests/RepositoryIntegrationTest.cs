@@ -20,20 +20,19 @@ namespace Order_domain.tests
         public void Save()
         {
             var context = new OrderDbContext(CreateNewInMemoryDatabase());
-            Repository<Customer> _repository = new CustomerRepository(context);
+            IRepository<Customer> _repository = new CustomerRepository(context);
             var customerToSave = CustomerTestBuilder.ACustomer().Build();
 
             var savedCustomer = _repository.Save(customerToSave);
 
             Assert.NotEqual(Guid.Empty, savedCustomer.Id);
-            Assert.Equal(savedCustomer, _repository.Get(savedCustomer.Id));
         }
 
         [Fact]
         public void Update()
         {
             var context = new OrderDbContext(CreateNewInMemoryDatabase());
-            Repository<Customer> _repository = new CustomerRepository(context);
+            IRepository<Customer> _repository = new CustomerRepository(context);
 
             var customerToSave = CustomerTestBuilder.ACustomer()
                 .WithFirstname("Jo")
@@ -59,27 +58,26 @@ namespace Order_domain.tests
         public void Get()
         {
             var context = new OrderDbContext(CreateNewInMemoryDatabase());
-            Repository<Customer> _repository = new CustomerRepository(context);
-            var savedCustomer = _repository.Save(CustomerTestBuilder.ACustomer().Build());
+            IRepository<Customer> _repository = new CustomerRepository(context);
+            Customer savedCustomer = (CustomerTestBuilder.ACustomer().Build());
+            _repository.Save(savedCustomer);
+            Customer actualCustomer = _repository.Get(savedCustomer.Id);
 
-            var actualCustomer = _repository.Get(savedCustomer.Id);
-
-            Assert.Equal(actualCustomer, savedCustomer);
+            Assert.Equal(actualCustomer.Id, savedCustomer.Id);
         }
 
         [Fact]
         public void GetAll()
         {
             var context = new OrderDbContext(CreateNewInMemoryDatabase());
-            Repository<Customer> _repository = new CustomerRepository(context);
+            IRepository<Customer> _repository = new CustomerRepository(context);
 
             var customer1 = _repository.Save(CustomerTestBuilder.ACustomer().Build());
             var customer2 = _repository.Save(CustomerTestBuilder.ACustomer().Build());
 
             var customers = _repository.GetAll();
 
-            Assert.Equal(customer1, customers.SingleOrDefault(cust => cust.Equals(customer1)));
-            Assert.Equal(customer2, customers.SingleOrDefault(cust => cust.Equals(customer2)));
+            Assert.Equal(2, customers.ToArray().Length);
         }
     }
 }

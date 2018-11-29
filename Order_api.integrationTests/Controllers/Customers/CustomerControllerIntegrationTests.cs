@@ -20,8 +20,6 @@ namespace Order_api.integrationTests.Controllers.Customers
 {
     public class CustomerControllerIntegrationTests
     {
-        private readonly HttpClient _client;
-
         private CustomerDto CreateCustomerDto()
         {
             return CustomerDtoBuilder.CustomerDto()
@@ -70,81 +68,106 @@ namespace Order_api.integrationTests.Controllers.Customers
         [Fact]
         public async Task CreateCustomer_givenCustomerNotValidForCreationBecauseOfMissingFirstName_thenErrorObjectReturnedByControllerExceptionHandler()
         {
-            CustomerDto customerToCreate = CreateCustomerDto();
-            customerToCreate.FirstName = string.Empty;
+            var _server = new TestServer(new WebHostBuilder().UseStartup<TestStartup>());
+            using (_server)
+            {
+                var _client = _server.CreateClient();
 
-            var content = JsonConvert.SerializeObject(customerToCreate);
-            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+                CustomerDto customerToCreate = CreateCustomerDto();
+                customerToCreate.FirstName = string.Empty;
 
-            var response = await _client.PostAsync("/api/customers", stringContent);
+                var content = JsonConvert.SerializeObject(customerToCreate);
+                var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
 
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+                var response = await _client.PostAsync("/api/customers", stringContent);
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            var error = JsonConvert.DeserializeObject<ErrorDto>(responseString);
+                Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 
-            Assert.NotNull(error);
-            Assert.False(string.IsNullOrWhiteSpace(error.UniqueErrorId));
-            Assert.Contains("Invalid Customer provided for creation. " + "Provided object: Customer{id=", error.Message);
+                var responseString = await response.Content.ReadAsStringAsync();
+                var error = JsonConvert.DeserializeObject<ErrorDto>(responseString);
+
+                Assert.NotNull(error);
+                Assert.False(string.IsNullOrWhiteSpace(error.UniqueErrorId));
+                Assert.Contains("Invalid Customer provided for creation. " + "Provided object: Customer{id=", error.Message);
+            }
         }
 
         [Fact]
         public async Task GetAllCustomers()
         {
-            CustomerDto customerToCreate = CreateCustomerDto();
+            var _server = new TestServer(new WebHostBuilder().UseStartup<TestStartup>());
+            using (_server)
+            {
+                var _client = _server.CreateClient();
 
-            var content = JsonConvert.SerializeObject(customerToCreate);
-            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+                CustomerDto customerToCreate = CreateCustomerDto();
 
-            await _client.PostAsync("/api/customers", stringContent);
-            await _client.PostAsync("/api/customers", stringContent);
+                var content = JsonConvert.SerializeObject(customerToCreate);
+                var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
 
-            var response = await _client.GetAsync("/api/customers");
-            response.EnsureSuccessStatusCode();
+                await _client.PostAsync("/api/customers", stringContent);
+                await _client.PostAsync("/api/customers", stringContent);
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            var allCustomers = JsonConvert.DeserializeObject<IEnumerable<CustomerDto>>(responseString);
+                var response = await _client.GetAsync("/api/customers");
+                response.EnsureSuccessStatusCode();
 
-            Assert.Equal(2, allCustomers.Count());
+                var responseString = await response.Content.ReadAsStringAsync();
+                var allCustomers = JsonConvert.DeserializeObject<IEnumerable<CustomerDto>>(responseString);
+
+                Assert.Equal(2, allCustomers.Count());
+            }
         }
 
         [Fact]
         public async Task GetAllCustomers_assertResultIsCorrectlyReturned()
         {
-            CustomerDto customer = CreateCustomerDto();
+            var _server = new TestServer(new WebHostBuilder().UseStartup<TestStartup>());
+            using (_server)
+            {
+                var _client = _server.CreateClient();
 
-            var content = JsonConvert.SerializeObject(customer);
-            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
+                CustomerDto customer = CreateCustomerDto();
 
-            await _client.PostAsync("/api/customers", stringContent);
+                var content = JsonConvert.SerializeObject(customer);
+                var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
 
-            var response = await _client.GetAsync("/api/customers");
-            response.EnsureSuccessStatusCode();
+                await _client.PostAsync("/api/customers", stringContent);
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            var allCustomers = JsonConvert.DeserializeObject<IEnumerable<CustomerDto>>(responseString).ToList();
+                var response = await _client.GetAsync("/api/customers");
+                response.EnsureSuccessStatusCode();
 
-            Assert.Single(allCustomers);
-            AssertCustomerIsEqualIgnoringId(customer, allCustomers.First());
+                var responseString = await response.Content.ReadAsStringAsync();
+                var allCustomers = JsonConvert.DeserializeObject<IEnumerable<CustomerDto>>(responseString).ToList();
+
+                Assert.Single(allCustomers);
+                AssertCustomerIsEqualIgnoringId(customer, allCustomers.First());
+            }
         }
 
         [Fact]
         public async Task GetCustomer()
         {
-            CustomerDto customer = CreateCustomerDto();
+            var _server = new TestServer(new WebHostBuilder().UseStartup<TestStartup>());
+            using (_server)
+            {
+                var _client = _server.CreateClient();
 
-            var content = JsonConvert.SerializeObject(customer);
-            var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
 
-            var postResponse = await _client.PostAsync("/api/customers", stringContent);
-            var postResponseString = await postResponse.Content.ReadAsStringAsync();
-            var customerToFind = JsonConvert.DeserializeObject<CustomerDto>(postResponseString);
+                CustomerDto customer = CreateCustomerDto();
 
-            var getResponse = await _client.GetAsync("/api/customers/" + customerToFind.Id);
-            var getResponseString = await getResponse.Content.ReadAsStringAsync();
-            var foundCustomer = JsonConvert.DeserializeObject<CustomerDto>(getResponseString);
+                var content = JsonConvert.SerializeObject(customer);
+                var stringContent = new StringContent(content, Encoding.UTF8, "application/json");
 
-            AssertCustomerIsEqualIgnoringId(customer, foundCustomer);
+                var postResponse = await _client.PostAsync("/api/customers", stringContent);
+                var postResponseString = await postResponse.Content.ReadAsStringAsync();
+                var customerToFind = JsonConvert.DeserializeObject<CustomerDto>(postResponseString);
+
+                var getResponse = await _client.GetAsync("/api/customers/" + customerToFind.Id);
+                var getResponseString = await getResponse.Content.ReadAsStringAsync();
+                var foundCustomer = JsonConvert.DeserializeObject<CustomerDto>(getResponseString);
+
+                AssertCustomerIsEqualIgnoringId(customer, foundCustomer);
+            }
         }
 
         private void AssertCustomerIsEqualIgnoringId(CustomerDto customerToCreate, CustomerDto createdCustomer)

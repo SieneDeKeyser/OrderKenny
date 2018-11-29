@@ -6,23 +6,50 @@ using Order_domain.Data;
 
 namespace Order_domain.Orders
 {
-    public class OrderRepository : Repository<Order>, IOrderRepository
+    public class OrderRepository : IRepository<Order>
     {
+        private readonly OrderDbContext _Context;
 
-
-        public OrderRepository(OrderDbContext context) : base(context)
+        public OrderRepository(OrderDbContext dBContext)
         {
+            _Context = dBContext;
         }
 
         public Order Save(Order entity)
         {
-            Order savedOrder = base.Save(entity);
-            return savedOrder;
+            _Context.Orders.Add(entity);
+            _Context.SaveChanges();
+            return entity;
+        }
+
+        public Order Update(Order entity)
+        {
+            _Context.SaveChanges();
+            return entity;
+        }
+
+        public Order Get(Guid entityId)
+        {
+            return _Context.Orders
+                .Include(order => order.Customer)
+                .Include(order => order.OrderItems)
+                .Single(item => item.Id.Equals(entityId));
+        }
+
+        public IList<Order> GetAll()
+        {
+            return _Context.Orders
+                .Include(order => order.Customer)
+                .Include(order => order.OrderItems)
+                .AsNoTracking()
+                .ToList();
         }
 
         public IEnumerable<Order> GetOrdersForCustomer(Guid customerId)
         {
-            return GetAll().Where(order => order.CustomerId == customerId).Select(order => order).ToList();
+            return _Context.Orders
+                .Where(order => order.Customer.Id.Equals(customerId))
+                .ToList();
         }
     }
 }

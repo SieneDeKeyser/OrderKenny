@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
+using Order_domain;
 using Order_domain.Data;
 using Order_domain.Items;
 using Order_domain.tests.Items;
@@ -12,11 +13,11 @@ namespace Order_service.tests.Items
     public class ItemServiceTests
     {
         private readonly ItemService _itemService;
-        private readonly IItemRepository _itemRepository;
+        private readonly IRepository<Item> _itemRepository;
 
         public ItemServiceTests()
         {
-            _itemRepository = Substitute.For<IItemRepository>();
+            _itemRepository = Substitute.For<IRepository<Item>>();
             _itemService = new ItemService(_itemRepository, new ItemValidator());
         }
 

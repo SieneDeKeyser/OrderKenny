@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Oder_infrastructure.builders;
 using Order_domain.Customers.Addresses;
 using Order_domain.Customers.Emails;
@@ -97,6 +98,17 @@ namespace Order_domain.Customers
             return this;
         }
 
-    }
+            public override bool Equals(object obj)
+            {
+                var builder = obj as CustomerBuilder;
+                return builder != null &&
+                       Id.Equals(builder.Id);
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(Id);
+            }
+        }
 }
 }
