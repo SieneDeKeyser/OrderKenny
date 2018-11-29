@@ -1,0 +1,60 @@
+mat-selection-list{
+    width: 50%;
+    left: 25%;
+    display: inline-block;
+    margin-bottom: 10%;
+}
+
+mat-list-option{
+    text-align: left;
+    border-radius: 4px 0 0 4px;
+    background-color: rgb(223, 234, 238);
+    margin-top: 1%;
+}
+
+.listItems{
+    display: inline-block;
+} 
+
+.idCustomer {
+width: 5%;
+display: inline-block;
+color: white;
+padding: 0.8em 0.7em 0 0.7em;
+background-color: #607D8B;
+position: relative;
+left: -1px;
+top: -4px;
+height: 1.8em;
+margin-right: .8em;
+border-radius: 4px 0 0 4px;
+text-align: center;
+line-height: 2em;
+}
+
+.editingListCustomers {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-left: 25%;
+  }
+  
+  .editingListCustomers > * {
+    background-color: rgb(223, 234, 238);
+    border-radius: 4px 0 0 4px;
+  }
+  mat-form-field {
+      margin: .1em;
+  }
+  .editingListCustomers h2 {
+      background-color: white;
+  }
+
+  .mat-raised-button {
+      width: 10%;
+      font-weight: bolder;
+      font-size:110%; 
+      margin-top: 1em;
+  }
+
+  

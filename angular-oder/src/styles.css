@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/pink-bluegrey.css';
+.mat-list-text {
+    color: black;
+}
+
+.mat-list-base .mat-list-item .mat-list-text, .mat-list-base .mat-list-option .mat-list-text {
+    display: inline-block;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label {
+    color: black;
+}
+
+.mat-raised-button:not([disabled]):active:not([class*=mat-elevation-z]){
+    background-color: #607D8B;
+}
+
+.mat-raised-button{
+    background-color: #607D8B;
+}

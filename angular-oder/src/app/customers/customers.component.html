@@ -1,0 +1,25 @@
+<h2>Customers</h2>
+<mat-selection-list #customersMatList>
+  <mat-list-option *ngFor="let customer of customers" class="listItems"><span class="idCustomer">{{customers.indexOf(customer) + 1}}</span>{{customer.firstName}} {{customer.lastName}}</mat-list-option>
+</mat-selection-list>
+<div class="editingListCustomers">
+  <h2>Add new customer</h2>
+    <mat-form-field>
+        <input matInput placeholder="Firstname">
+        </mat-form-field><mat-form-field>
+        <input matInput placeholder="Lastname">
+      </mat-form-field><mat-form-field>
+        <input matInput placeholder="Email">
+      </mat-form-field><mat-form-field>
+        <input matInput placeholder="Street name">
+      </mat-form-field><mat-form-field>
+        <input matInput placeholder="Street number">
+      </mat-form-field><mat-form-field>
+        <input matInput placeholder="PostalCode">
+      </mat-form-field><mat-form-field>
+        <input matInput placeholder="City">
+      </mat-form-field><mat-form-field>
+        <input matInput placeholder="Country">
+      </mat-form-field>
+</div>
+<button mat-raised-button>SAVE</button>
