@@ -64,6 +64,9 @@ namespace Order_api
             services.AddSingleton<IRepository<Order>, OrderRepository>();
 
             services.AddSingleton<OrderDbContext>();
+
+            services.AddCors();
+
             services.AddSwagger();
         }
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -89,6 +92,13 @@ namespace Order_api
                 settings.GeneratorSettings.DefaultPropertyNameHandling =
                     PropertyNameHandling.CamelCase;
             });
+
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+
 
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseMvc();
