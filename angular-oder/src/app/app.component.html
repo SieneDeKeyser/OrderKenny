@@ -1,12 +1,16 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <nav style="text-align:center">
   <img height=150px alt="Angular Logo" src="../assets/images/order.png">
+  <div class="navbar">
+      <a routerLink="/customers"> CUSTOMERS </a>
+      <a routerLink="/items"> ITEMS </a>
+  </div>
   <h1>
     Welcome to {{ title }}!
   </h1>
 </nav>
 <div style="text-align:center">
-  <app-customers></app-customers>
-</div>
+    <router-outlet></router-outlet>
+  </div>
 <footer></footer>
 

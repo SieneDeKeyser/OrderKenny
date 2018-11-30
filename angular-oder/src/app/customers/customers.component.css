@@ -1,15 +1,26 @@
-mat-selection-list{
-    width: 50%;
-    left: 25%;
-    display: inline-block;
+mat-accordion{
+    width: 70%;
+    margin-left: 15%;
+    display: block;
     margin-bottom: 10%;
 }
 
-mat-list-option{
+mat-expansion-panel{
     text-align: left;
     border-radius: 4px 0 0 4px;
     background-color: rgb(223, 234, 238);
-    margin-top: 1%;
+    margin-top: 0.5%;
+    width: 100%
+}
+mat-panel-title{
+    color: black;
+    font-size:1.5em;
+    line-height: 2em;
+}
+
+/deep/.mat-list-base .mat-list-item {
+    color: black;
+    font-size: 80%;
 }
 
 .listItems{
@@ -17,19 +28,21 @@ mat-list-option{
 } 
 
 .idCustomer {
-width: 5%;
-display: inline-block;
-color: white;
-padding: 0.8em 0.7em 0 0.7em;
-background-color: #607D8B;
-position: relative;
-left: -1px;
-top: -4px;
-height: 1.8em;
-margin-right: .8em;
-border-radius: 4px 0 0 4px;
-text-align: center;
-line-height: 2em;
+    width: 40%;
+    display: inline-block;
+    color: white;
+    padding: 0.8em 0.7em 0 0.7em;
+    background-color: #607D8B;
+    position: relative;
+    left: -1px;
+    top: -4px;
+    margin-right: .8em;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    text-align: center;
+    line-height: 2em;
 }
 
 .editingListCustomers {
@@ -44,17 +57,40 @@ line-height: 2em;
     border-radius: 4px 0 0 4px;
   }
   mat-form-field {
-      margin: .1em;
+     margin: .1em;
   }
   .editingListCustomers h2 {
-      background-color: white;
+    background-color: white;
   }
 
   .mat-raised-button {
-      width: 10%;
-      font-weight: bolder;
-      font-size:110%; 
-      margin-top: 1em;
+    width: 25%;
+    font-weight: bolder;
+    margin-top: 1em;
+    margin-bottom: 1em;
   }
+
+  .mat-raised-button:hover {
+    right: 0.1em;
+    background-color: rgb(86, 110, 121);
+}
+
+.ng-star-inserted {
+    font-size: 75%;
+    color: red;
+}
+
+/deep/ .mat-form-field-infix{
+    color: black;
+}
+
+/deep/ .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+    color:black;
+}
+
+/deep/ mat-form-field[_ngcontent-c1] {
+    display: block;
+    margin: 1em;
+}
 
   

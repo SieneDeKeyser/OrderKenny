@@ -5,6 +5,11 @@ export class Customer {
     email: Email;
     address: Address;
     phoneNumber: PhoneNumber;
+    constructor(){
+        this.address = new Address();
+        this.email = new Email();
+        this.phoneNumber = new PhoneNumber();
+    }
 
   }
 

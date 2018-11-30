@@ -19,3 +19,13 @@
 .mat-raised-button{
     background-color: #607D8B;
 }
+.mat-expansion-panel {
+    background: none;
+}
+nav img {
+    text-align: left;
+    display: inline-block;
+}
+nav div {
+    display: inline-block;
+}

@@ -5,6 +5,10 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import { Customer } from '../customers/customer';
 
+const httpOptions = {
+  headers: new HttpHeaders({'Content-Type': 'application/json'})
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +23,25 @@ export class CustomerService {
                     .pipe(
                       tap(_=> console.log('Getting all costumers')),
                       catchError(this.handleError('getAllCustomers', []))
+                    );
+  }
+
+  addNewCustomer(customer:Customer): Observable<Customer> {
+    delete customer.id;
+
+    return this.http.post<Customer>(this.customersUrl, customer, httpOptions)
+        .pipe(
+          tap((c:Customer) => console.log(`adding new customer with ${c.id}`)),
+          catchError(this.handleError<Customer>('creatingCustomer'))
+        );
+  }
+
+  getCustomer(id: string): Observable<Customer>{
+    const url = `${this.customersUrl}/${id}`;
+    return this.http.get<Customer>(url)
+                    .pipe(
+                      tap(_ => console.log(`getCostumer with id= ${id}`)),
+                      catchError(this.handleError<Customer>(`getCostumer ${id}`))
                     );
   }
 

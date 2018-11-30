@@ -1,25 +1,69 @@
 <h2>Customers</h2>
-<mat-selection-list #customersMatList>
-  <mat-list-option *ngFor="let customer of customers" class="listItems"><span class="idCustomer">{{customers.indexOf(customer) + 1}}</span>{{customer.firstName}} {{customer.lastName}}</mat-list-option>
-</mat-selection-list>
+<mat-accordion>
+    <mat-expansion-panel *ngFor="let customer of customers" class="listItems">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            <span class="idCustomer">{{customer.id}}</span>
+            {{customer.firstName}} {{customer.lastName}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-customer-detail [customer]="customer"></app-customer-detail>
+    </mat-expansion-panel>
+</mat-accordion>
 <div class="editingListCustomers">
+  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
   <h2>Add new customer</h2>
+    <mat-form-field >
+        <input matInput placeholder="Firstname" formControlName="firstname" [ngClass]="{'is-invalid': submitted && f.firstname.errors}" [(ngModel)]="customer.firstName">
+        <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+          <div *ngIf="f.firstname.errors.required">firstname is required</div>
+      </div>
+    </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Firstname">
-        </mat-form-field><mat-form-field>
-        <input matInput placeholder="Lastname">
-      </mat-form-field><mat-form-field>
-        <input matInput placeholder="Email">
-      </mat-form-field><mat-form-field>
-        <input matInput placeholder="Street name">
-      </mat-form-field><mat-form-field>
-        <input matInput placeholder="Street number">
-      </mat-form-field><mat-form-field>
-        <input matInput placeholder="PostalCode">
-      </mat-form-field><mat-form-field>
-        <input matInput placeholder="City">
-      </mat-form-field><mat-form-field>
-        <input matInput placeholder="Country">
+        <input matInput placeholder="Lastname"  formControlName="lastname" [ngClass]="{'is-invalid': submitted && f.lastname.errors}" [(ngModel)]="customer.lastName">
+        <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+            <div *ngIf="f.lastname.errors.required">lastname is required</div>
+        </div>
       </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Email"  formControlName="email" [ngClass]="{'is-invalid': submitted && f.email.errors}" [(ngModel)]="customer.email.complete">
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">email is required</div>
+            <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+
+        </div>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Street name"  formControlName="streetname" [ngClass]="{'is-invalid': submitted && f.streetname.errors}" [(ngModel)]="customer.address.streetName">
+        <div *ngIf="submitted && f.streetname.errors" class="invalid-feedback">
+            <div *ngIf="f.streetname.errors.required">streetname is required</div>
+        </div>
+
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Street number"  formControlName="streetnumber" [ngClass]="{'is-invalid': submitted && f.streetnumber.errors}" [(ngModel)]="customer.address.houseNumber">
+        <div *ngIf="submitted && f.streetnumber.errors" class="invalid-feedback">
+            <div *ngIf="f.streetnumber.errors.required">streetnumber is required</div>
+        </div>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="PostalCode"  formControlName="postalcode" [ngClass]="{'is-invalid': submitted && f.postalcode.errors}" [(ngModel)]="customer.address.postalCode">
+        <div *ngIf="submitted && f.postalcode.errors" class="invalid-feedback">
+            <div *ngIf="f.postalcode.errors.required">postalcode is required</div>
+        </div>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Country" formControlName="country" [ngClass]="{'is-invalid': submitted && f.country.errors}" [(ngModel)]="customer.address.country">
+        <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+            <div *ngIf="f.country.errors.required">country is required</div>
+        </div>
+      </mat-form-field>
+      <mat-form-field>
+          <input matInput placeholder="PhoneNumber" formControlName="phonenumber" [ngClass]="{'is-invalid': submitted && f.phonenumber.errors}" [(ngModel)]="customer.phoneNumber.number">
+          <div *ngIf="submitted && f.phonenumber.errors" class="invalid-feedback">
+              <div *ngIf="f.phonenumber.errors.required">phoneNumber is required</div>
+          </div>
+      </mat-form-field>
+      <button mat-raised-button type="submit">SAVE</button>
+  </form>
 </div>
-<button mat-raised-button>SAVE</button>

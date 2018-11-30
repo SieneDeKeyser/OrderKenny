@@ -1,0 +1,15 @@
+<div *ngIf="customer" class="customerDetail">
+
+<mat-list role="link">
+  <mat-list-item role="listitem">Firstname: {{customer.firstName}}</mat-list-item>
+  <mat-list-item role="listitem">Lastname: {{customer.lastName}}</mat-list-item>
+  <mat-list-item role="listitem">Email: {{customer.email.complete}}</mat-list-item>
+  <mat-list-item role="listitem">Phonenumber: {{customer.phoneNumber.number}}</mat-list-item>
+  <mat-list-item role="listitem">Adress:
+    <mat-list-item role="listitem">Streetname: {{customer.address.streetName}}</mat-list-item>
+    <mat-list-item role="listitem">Number: {{customer.address.houseNumber}}</mat-list-item>
+    <mat-list-item role="listitem">Postcode: {{customer.address.postalCode}}</mat-list-item>
+    <mat-list-item role="listitem">Country: {{customer.address.country}}</mat-list-item>
+  </mat-list-item>
+</mat-list>
+</div>

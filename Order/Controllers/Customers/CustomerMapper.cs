@@ -47,7 +47,7 @@ namespace Order_api.Controllers.Customers
         public Customer ToDomainForCreation(CustomerDto customerDto)
         {
             return Customer.CustomerBuilder.Customer()
-                .WithId(new Guid(customerDto.Id))
+                .WithId(string.IsNullOrWhiteSpace(customerDto.Id) ? Guid.Empty : new Guid(customerDto.Id))
                 .WithLastname(customerDto.LastName)
                 .WithFirstname(customerDto.FirstName)
                 .WithAddress(_addressMapper.ToDomain(customerDto.Address))
