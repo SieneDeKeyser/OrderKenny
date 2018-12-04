@@ -93,4 +93,9 @@ mat-panel-title{
     margin: 1em;
 }
 
+::ng-deep .mat-list-base .mat-list-item .mat-list-text, 
+::ng-deep .mat-list-base .mat-list-option .mat-list-text {
+    display: inline-block;
+}
+
   

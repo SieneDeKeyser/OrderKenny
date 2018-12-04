@@ -1,0 +1,17 @@
+/deep/ .mat-list-item.productTitle {
+    height: 5em;
+}
+
+/deep/ .mat-list-item.imgProduct {
+    height: 10em;
+    border: 2em;
+    border-color: blueviolet;
+}
+
+/deep/ .mat-list-item.productPrice {
+    height: 5em;
+}
+
+::ng-deep .mat-list-base .mat-list-item {
+    color: black;
+}

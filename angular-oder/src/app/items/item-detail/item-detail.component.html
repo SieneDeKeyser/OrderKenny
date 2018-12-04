@@ -1,0 +1,8 @@
+<mat-grid-list cols="2" rowHeight="2:1" *ngIf="item">
+  <mat-grid-tile>id: </mat-grid-tile><mat-grid-tile>{{item.id}}</mat-grid-tile>
+  <mat-grid-tile>Name: </mat-grid-tile><mat-grid-tile> {{item.name}}</mat-grid-tile>
+  <mat-grid-tile>Description: </mat-grid-tile><mat-grid-tile> {{item.description}}</mat-grid-tile>
+  <mat-grid-tile>Price: </mat-grid-tile><mat-grid-tile>€ {{item.price}}</mat-grid-tile>
+  <mat-grid-tile>Stock: </mat-grid-tile><mat-grid-tile> {{item.amountOfStock}}</mat-grid-tile>
+</mat-grid-list>
+<a routerLink="/items/update/{{item.id}}"><button mat-raised-button>EDIT</button></a>

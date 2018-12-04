@@ -4,9 +4,7 @@
     color: black;
 }
 
-.mat-list-base .mat-list-item .mat-list-text, .mat-list-base .mat-list-option .mat-list-text {
-    display: inline-block;
-}
+
 
 .mat-form-field-appearance-legacy .mat-form-field-label {
     color: black;

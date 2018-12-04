@@ -8,13 +8,19 @@ import { CustomersComponent } from './customers/customers.component';
 import { CoreModule } from './core/core.module';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { ItemsComponent } from './items/items.component';
+import { CreateItemComponent } from './items/create-item/create-item.component';
+import { ItemDetailComponent } from './items/item-detail/item-detail.component';
+import { ItemUpdateComponent } from './items/item-update/item-update.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomersComponent,
     CustomerDetailComponent,
-    ItemsComponent
+    ItemsComponent,
+    CreateItemComponent,
+    ItemDetailComponent,
+    ItemUpdateComponent
   ],
   imports: [
     BrowserModule,

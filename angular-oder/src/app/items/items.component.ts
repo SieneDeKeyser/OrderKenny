@@ -9,7 +9,7 @@ import { ItemsService } from '../core/items.service';
 })
 export class ItemsComponent implements OnInit {
 
-  constructor(private itemService:ItemsService) { }
+  constructor(private itemService:ItemsService, ) { }
   items: Item [] = [];
 
   ngOnInit() {

@@ -1,9 +1,12 @@
 <mat-grid-list cols="3" rowHeight="2:1">
     <mat-grid-tile *ngFor="let item of items" class="productItem">
         <mat-list role="list">
-            <mat-list-item role="listitem"class="productTitle">{{item.name | uppercase}}</mat-list-item>
-            <mat-list-item role="listitem"class="imgProduct">2</mat-list-item>
+            <mat-list-item role="listitem"class="productTitle"><a routerLink="/items/{{item.id}}">{{item.name | uppercase}}</a></mat-list-item>
+            <mat-list-item role="listitem"class="imgProduct">IMG</mat-list-item>
             <mat-list-item role="listitem"class="productPrice">PRICE: € {{item.price}}</mat-list-item>
           </mat-list>
           </mat-grid-tile>
   </mat-grid-list>
+  <a routerLink="/items/newItem"><button mat-raised-button>CREATE ITEM</button></a>
+  
+

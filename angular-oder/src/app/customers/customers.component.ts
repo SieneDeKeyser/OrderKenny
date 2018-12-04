@@ -35,7 +35,7 @@ export class CustomersComponent implements OnInit {
     });
   }
 
-  addNewCustomer() {
+  saveNewCustomer() {
       this.customer.phoneNumber.countryCallingCode ='0032';
       this.customer.email.domain = this.customer.email.complete.split('@')[1];
       this.customer.email.localPart = this.customer.email.complete.split('@')[0];
@@ -47,13 +47,13 @@ export class CustomersComponent implements OnInit {
     return this.customerForm.controls;
   }
 
-  onSubmit() {
+  isValid(): boolean {
     this.submitted = true;
     if(this.customerForm.invalid)
     {
-      return;
+      return false;
     }
-    this.addNewCustomer();
+    return true;
   }
 
   getCustomers(): void {

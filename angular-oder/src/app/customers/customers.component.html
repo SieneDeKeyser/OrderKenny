@@ -11,7 +11,7 @@
     </mat-expansion-panel>
 </mat-accordion>
 <div class="editingListCustomers">
-  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="customerForm" (ngSubmit)="isValid() && saveNewCustomer()">
   <h2>Add new customer</h2>
     <mat-form-field >
         <input matInput placeholder="Firstname" formControlName="firstname" [ngClass]="{'is-invalid': submitted && f.firstname.errors}" [(ngModel)]="customer.firstName">

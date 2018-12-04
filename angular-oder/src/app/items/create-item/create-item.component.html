@@ -1,0 +1,37 @@
+<div class="addingNewItemList">
+  <form [formGroup]="itemForm" (ngSubmit)="isValid() && saveNewItem()">
+  <h2>{{item.name}}</h2>
+    <mat-form-field >
+        <input matInput placeholder="The item name" formControlName="name" [ngClass]="{'is-invalid': submitted && i.name.errors}" [(ngModel)]="item.name">
+        <div *ngIf="submitted && i.name.errors" class="invalid-feedback">
+          <div *ngIf="i.name.errors.required">name is required</div>
+      </div>
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput placeholder="The item description" formControlName="description" [ngClass]="{'is-invalid': submitted && i.description.errors}" [(ngModel)]="item.description" type="text">
+      <div *ngIf="submitted && i.description.errors" class="invalid-feedback">
+        <div *ngIf="i.description.errors.required">description is required</div>
+    </div>
+  </mat-form-field>
+  <mat-form-field >
+    <input matInput placeholder="Price" formControlName="price" [ngClass]="{'is-invalid': submitted && i.price.errors}" [(ngModel)]="item.price">
+    <span matPrefix>€&nbsp;&nbsp;</span>
+    <span matSuffix>0.00</span>
+    <div *ngIf="submitted && i.price.errors" class="invalid-feedback">
+      <div *ngIf="i.price.errors.required">Price is required</div>
+      <div *ngIf="i.price.errors.pattern">Price is numeric and non negative</div>
+  </div>
+</mat-form-field>
+<mat-form-field >
+  <input matInput placeholder="Amount Of Stock" formControlName="amount" [ngClass]="{'is-invalid': submitted && i.amount.errors}" [(ngModel)]="item.amountOfStock">
+  <span matSuffix>0</span>
+  <div *ngIf="submitted && i.amount.errors" class="invalid-feedback">
+    <div *ngIf="i.amount.errors.required">amount is required</div>
+    <div *ngIf="i.amount.errors.pattern">amount is numeric & bigger than 0</div>
+</div>
+</mat-form-field>
+<button mat-raised-button type="submit" class="btnCreateItem">SAVE</button>
+<button mat-raised-button type="reset" class="btnCreateItem">CANCEL</button>
+
+  </form>
+</div>
